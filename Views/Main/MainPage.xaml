@@ -1,0 +1,146 @@
+﻿<Page x:Class="Rockstar.Admin.WPF.Views.Main.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      d:DesignHeight="750" d:DesignWidth="1100"
+      Background="#F5F7FA"
+      FontFamily="Segoe UI">
+
+    <Page.Resources>
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#2C2C2E"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Margin" Value="0,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="24,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="10"
+                                BorderThickness="1"
+                                BorderBrush="#E8E8ED">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFF5F0"/>
+                                <Setter Property="BorderBrush" Value="#FF4D00"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FFE8D9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PageTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#2C2C2E"/>
+            <Setter Property="Margin" Value="0,0,0,24"/>
+        </Style>
+
+        <Style x:Key="PageSubtitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#8E8E93"/>
+            <Setter Property="Margin" Value="0,0,0,32"/>
+        </Style>
+
+        <Style x:Key="LogoutButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FF4D00"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#E64500"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Панель управления" Style="{StaticResource PageTitleStyle}"/>
+            <TextBlock Text="Выберите раздел для работы" Style="{StaticResource PageSubtitleStyle}"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="0"
+                    Content="Учетные записи клиентов"
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding OpenClientsCommand}"/>
+
+            <Button Grid.Row="0" Grid.Column="1"
+                    Content="Абонементы"
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding OpenSubscriptionsCommand}"/>
+
+            <Button Grid.Row="1" Grid.Column="0"
+                    Content="Тренерский состав"
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding OpenTrainersCommand}"/>
+
+            <Button Grid.Row="1" Grid.Column="1"
+                    Content="Виды направлений"
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding OpenDirectionsCommand}"/>
+
+            <Button Grid.Row="2" Grid.Column="0"
+                    Content="Расписание"
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding OpenScheduleCommand}"/>
+
+            <Grid Grid.Row="2" Grid.Column="1"/>
+        </Grid>
+
+        <StackPanel Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Content="Выход"
+                    Style="{StaticResource LogoutButtonStyle}"
+                    Command="{Binding LogoutCommand}"
+                    Width="120"/>
+            <TextBlock Text="© 2026 Спортивный клуб Рокстар"
+                       FontSize="11"
+                       Foreground="#8E8E93"
+                       HorizontalAlignment="Right"
+                       Margin="0,16,0,0"/>
+        </StackPanel>
+    </Grid>
+</Page>

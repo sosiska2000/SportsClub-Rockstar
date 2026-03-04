@@ -1,23 +1,22 @@
-﻿using System.Text;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Rockstar.Admin.WPF.Views.Auth;
 
-namespace Rockstar.Admin.WPF;
-
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+namespace Rockstar.Admin.WPF
 {
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            // Создаём делегат навигации
+            Action<Page> navigate = (page) => MainFrame.Navigate(page);
+
+            // Создаём LoginPage вручную, передавая делегат
+            var loginPage = new LoginPage(navigate);
+            MainFrame.Navigate(loginPage);
+        }
     }
 }

@@ -1,14 +1,12 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 namespace Rockstar.Admin.WPF.Views.Clients
 {
     public partial class ClientsView : Page
     {
-        private readonly Frame _mainFrame;
-
-        public ClientsView(Frame mainFrame)
+        public ClientsView(Action<Page> navigate)
         {
-            _mainFrame = mainFrame;
             InitializeComponent();
         }
     }

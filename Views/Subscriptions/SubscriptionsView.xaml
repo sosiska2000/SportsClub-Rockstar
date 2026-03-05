@@ -6,11 +6,9 @@
       xmlns:local="clr-namespace:Rockstar.Admin.WPF.Views.Subscriptions"
       Background="#F5F7FA">
     <Grid>
-        <TextBlock Text="Учетные записи клиентов" 
-                   FontSize="20" 
-                   FontWeight="SemiBold"
+        <TextBlock Text="Абонементы" 
+                   FontSize="20" FontWeight="SemiBold"
                    Foreground="#2C2C2E"
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center"/>
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Page>

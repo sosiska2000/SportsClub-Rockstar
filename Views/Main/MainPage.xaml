@@ -103,30 +103,31 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <!-- Кнопки с Click-событиями -->
             <Button Grid.Row="0" Grid.Column="0"
                     Content="Учетные записи клиентов"
                     Style="{StaticResource MenuButtonStyle}"
-                    Command="{Binding OpenClientsCommand}"/>
+                    Click="ClientsButton_Click"/>
 
             <Button Grid.Row="0" Grid.Column="1"
                     Content="Абонементы"
                     Style="{StaticResource MenuButtonStyle}"
-                    Command="{Binding OpenSubscriptionsCommand}"/>
+                    Click="SubscriptionsButton_Click"/>
 
             <Button Grid.Row="1" Grid.Column="0"
                     Content="Тренерский состав"
                     Style="{StaticResource MenuButtonStyle}"
-                    Command="{Binding OpenTrainersCommand}"/>
+                    Click="TrainersButton_Click"/>
 
             <Button Grid.Row="1" Grid.Column="1"
                     Content="Виды направлений"
                     Style="{StaticResource MenuButtonStyle}"
-                    Command="{Binding OpenDirectionsCommand}"/>
+                    Click="DirectionsButton_Click"/>
 
             <Button Grid.Row="2" Grid.Column="0"
                     Content="Расписание"
                     Style="{StaticResource MenuButtonStyle}"
-                    Command="{Binding OpenScheduleCommand}"/>
+                    Click="ScheduleButton_Click"/>
 
             <Grid Grid.Row="2" Grid.Column="1"/>
         </Grid>
@@ -134,7 +135,7 @@
         <StackPanel Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Button Content="Выход"
                     Style="{StaticResource LogoutButtonStyle}"
-                    Command="{Binding LogoutCommand}"
+                    Click="LogoutButton_Click"
                     Width="120"/>
             <TextBlock Text="© 2026 Спортивный клуб Рокстар"
                        FontSize="11"

@@ -1,7 +1,7 @@
 ﻿using Rockstar.Admin.WPF.Services.Interfaces;
 using Rockstar.Admin.WPF.ViewModels.Base;
-using Rockstar.Admin.WPF.Views.Auth;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -18,12 +18,13 @@ namespace Rockstar.Admin.WPF.ViewModels.Main
             _navigate = navigate;
         }
 
-        public ICommand OpenClientsCommand => new RelayCommand(_ => NavigateToSection("Clients"));
-        public ICommand OpenSubscriptionsCommand => new RelayCommand(_ => NavigateToSection("Subscriptions"));
-        public ICommand OpenTrainersCommand => new RelayCommand(_ => NavigateToSection("Trainers"));
-        public ICommand OpenDirectionsCommand => new RelayCommand(_ => NavigateToSection("Directions"));
-        public ICommand OpenScheduleCommand => new RelayCommand(_ => NavigateToSection("Schedule"));
-        public ICommand LogoutCommand => new RelayCommand(async _ => await ExecuteLogout());
+        // 🔑 Все команды без параметра
+        public ICommand OpenClientsCommand => new RelayCommand(() => NavigateToSection("Clients"));
+        public ICommand OpenSubscriptionsCommand => new RelayCommand(() => NavigateToSection("Subscriptions"));
+        public ICommand OpenTrainersCommand => new RelayCommand(() => NavigateToSection("Trainers"));
+        public ICommand OpenDirectionsCommand => new RelayCommand(() => NavigateToSection("Directions"));
+        public ICommand OpenScheduleCommand => new RelayCommand(() => NavigateToSection("Schedule"));
+        public ICommand LogoutCommand => new RelayCommand(async () => await ExecuteLogout());
 
         private void NavigateToSection(string section)
         {
@@ -33,7 +34,7 @@ namespace Rockstar.Admin.WPF.ViewModels.Main
         private async Task ExecuteLogout()
         {
             await _authService.LogoutAsync();
-            _navigate(new LoginPage(_navigate));
+            _navigate(new Views.Auth.LoginPage(_navigate));
         }
     }
 }

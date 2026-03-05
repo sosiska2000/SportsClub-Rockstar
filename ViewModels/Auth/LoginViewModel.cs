@@ -1,7 +1,7 @@
 ﻿using Rockstar.Admin.WPF.Services.Interfaces;
 using Rockstar.Admin.WPF.ViewModels.Base;
-using Rockstar.Admin.WPF.Views.Main;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,7 +11,7 @@ namespace Rockstar.Admin.WPF.ViewModels.Auth
     public class LoginViewModel : ViewModelBase
     {
         private readonly IAuthService _authService;
-        private readonly Action<Page> _navigate;
+        private readonly Action<Page> _navigate;  // 🔑 Action<Page>
 
         private string _email = string.Empty;
         private string _password = string.Empty;
@@ -73,8 +73,9 @@ namespace Rockstar.Admin.WPF.ViewModels.Auth
         public Visibility IsLoadingVisible => IsLoggingIn ? Visibility.Visible : Visibility.Collapsed;
         public bool CanLogin => !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password) && !IsLoggingIn;
 
-        public ICommand LoginCommand => new RelayCommand(async _ => await ExecuteLogin(), _ => CanLogin);
-        public ICommand ForgotPasswordCommand => new RelayCommand(_ => ExecuteForgotPassword());
+        // 🔑 RelayCommand без параметра
+        public ICommand LoginCommand => new RelayCommand(async () => await ExecuteLogin(), () => CanLogin);
+        public ICommand ForgotPasswordCommand => new RelayCommand(() => ExecuteForgotPassword());
 
         private void ClearError()
         {
@@ -107,7 +108,7 @@ namespace Rockstar.Admin.WPF.ViewModels.Auth
 
                 if (result.Success && result.User != null)
                 {
-                    _navigate(new MainPage(_navigate));
+                    _navigate(new Views.Main.MainPage(_navigate));
                 }
                 else
                 {
@@ -128,11 +129,11 @@ namespace Rockstar.Admin.WPF.ViewModels.Auth
 
         private void ExecuteForgotPassword()
         {
-            System.Windows.MessageBox.Show(
+            MessageBox.Show(
                 "Функция восстановления пароля будет доступна в следующей версии.",
                 "Информация",
-                System.Windows.MessageBoxButton.OK,
-                System.Windows.MessageBoxImage.Information);
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
         }
     }
 }

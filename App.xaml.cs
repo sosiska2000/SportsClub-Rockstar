@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Rockstar.Admin.WPF.Services;
 using Rockstar.Admin.WPF.Services.Interfaces;
@@ -17,23 +18,18 @@ namespace Rockstar.Admin.WPF
             ConfigureServices(services);
             Services = services.BuildServiceProvider();
 
-            // Запуск MainWindow
-            var mainWindow = new MainWindow();
+            var mainWindow = Services.GetRequiredService<MainWindow>();
             mainWindow.Show();
         }
 
         private static void ConfigureServices(ServiceCollection services)
         {
-            // 🔑 Регистрируем ТОЛЬКО сервисы, не Views и не ViewModels
-
-            // Сервис авторизации (Mock для тестов)
+            // Сервисы
             services.AddSingleton<IAuthService, MockAuthService>();
+            services.AddSingleton<ITrainerService, MockTrainerService>();
 
-            // Если будет реальный API:
-            // services.AddHttpClient<IAuthService, AuthService>(client =>
-            // {
-            //     client.BaseAddress = new Uri("https://localhost:5001/api/");
-            // });
+            // Окна
+            services.AddTransient<MainWindow>();
         }
     }
 }

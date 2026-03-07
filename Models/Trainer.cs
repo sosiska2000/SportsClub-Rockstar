@@ -25,5 +25,7 @@ namespace Rockstar.Admin.WPF.Models
             "climbing" => "Скалолазание",
             _ => Direction
         };
+
+        public string PlainPassword { get; set; } = string.Empty;
     }
 }

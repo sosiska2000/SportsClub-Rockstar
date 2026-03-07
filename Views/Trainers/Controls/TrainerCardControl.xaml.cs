@@ -1,15 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Rockstar.Admin.WPF.Models;
 
 namespace Rockstar.Admin.WPF.Views.Trainers.Controls
 {
-    // 🔑 Класс должен быть public
     public partial class TrainerCardControl : UserControl, INotifyPropertyChanged
     {
         public static readonly DependencyProperty TrainerProperty =
@@ -17,15 +15,14 @@ namespace Rockstar.Admin.WPF.Views.Trainers.Controls
                 new PropertyMetadata(null, OnTrainerChanged));
 
         public static readonly DependencyProperty EditCommandProperty =
-            DependencyProperty.Register(nameof(EditCommand), typeof(System.Windows.Input.ICommand), typeof(TrainerCardControl));
+            DependencyProperty.Register(nameof(EditCommand), typeof(ICommand), typeof(TrainerCardControl));
 
         public static readonly DependencyProperty DeleteCommandProperty =
-            DependencyProperty.Register(nameof(DeleteCommand), typeof(System.Windows.Input.ICommand), typeof(TrainerCardControl));
+            DependencyProperty.Register(nameof(DeleteCommand), typeof(ICommand), typeof(TrainerCardControl));
 
         public TrainerCardControl()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         public Trainer? Trainer
@@ -34,36 +31,47 @@ namespace Rockstar.Admin.WPF.Views.Trainers.Controls
             set => SetValue(TrainerProperty, value);
         }
 
-        public System.Windows.Input.ICommand? EditCommand
+        public ICommand? EditCommand
         {
-            get => (System.Windows.Input.ICommand?)GetValue(EditCommandProperty);
+            get => (ICommand?)GetValue(EditCommandProperty);
             set => SetValue(EditCommandProperty, value);
         }
 
-        public System.Windows.Input.ICommand? DeleteCommand
+        public ICommand? DeleteCommand
         {
-            get => (System.Windows.Input.ICommand?)GetValue(DeleteCommandProperty);
+            get => (ICommand?)GetValue(DeleteCommandProperty);
             set => SetValue(DeleteCommandProperty, value);
         }
 
         public string FullName => Trainer?.FullName ?? string.Empty;
+
         public string DirectionDisplayName => Trainer?.DirectionDisplayName ?? string.Empty;
+
         public string ExperienceText => Trainer != null ? $"Стаж: {Trainer.Experience} лет" : string.Empty;
+
         public string Description => Trainer?.Description ?? string.Empty;
-        
+
         public BitmapImage? PhotoSource
         {
             get
             {
                 if (Trainer?.Photo != null && Trainer.Photo.Length > 0)
                 {
-                    var image = new BitmapImage();
-                    image.BeginInit();
-                    image.StreamSource = new MemoryStream(Trainer.Photo);
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.EndInit();
-                    image.Freeze();
-                    return image;
+                    try
+                    {
+                        var image = new BitmapImage();
+                        image.BeginInit();
+                        image.StreamSource = new System.IO.MemoryStream(Trainer.Photo);
+                        image.CacheOption = BitmapCacheOption.OnLoad;
+                        image.EndInit();
+                        image.Freeze();
+                        return image;
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error loading photo: {ex.Message}");
+                        return null;
+                    }
                 }
                 return null;
             }
@@ -71,19 +79,20 @@ namespace Rockstar.Admin.WPF.Views.Trainers.Controls
 
         private static void OnTrainerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is TrainerCardControl control)
+            if (d is TrainerCardControl control && e.NewValue is Trainer trainer)
             {
-                control.RaisePropertyChanged(nameof(FullName));
-                control.RaisePropertyChanged(nameof(DirectionDisplayName));
-                control.RaisePropertyChanged(nameof(ExperienceText));
-                control.RaisePropertyChanged(nameof(Description));
-                control.RaisePropertyChanged(nameof(PhotoSource));
+                System.Diagnostics.Debug.WriteLine($"Card updated: {trainer.FullName}, Direction: {trainer.DirectionDisplayName}");
+                control.OnPropertyChanged(nameof(FullName));
+                control.OnPropertyChanged(nameof(DirectionDisplayName));
+                control.OnPropertyChanged(nameof(ExperienceText));
+                control.OnPropertyChanged(nameof(Description));
+                control.OnPropertyChanged(nameof(PhotoSource));
             }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        
-        protected virtual void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
+
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

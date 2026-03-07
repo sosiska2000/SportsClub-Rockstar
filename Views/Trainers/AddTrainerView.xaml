@@ -102,19 +102,18 @@
                 <!-- Фото -->
                 <TextBlock Text="Фотография" Style="{StaticResource FormLabelStyle}"/>
                 <Border Style="{StaticResource FormInputStyle}" Height="120" Cursor="Hand"
-                        MouseLeftButtonDown="PhotoBorder_MouseDown">
+        MouseLeftButtonDown="PhotoBorder_MouseDown">
                     <Grid>
                         <Image x:Name="PhotoImage" 
-                               Source="{Binding PhotoPreview}"
-                               Stretch="Uniform"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
+               Stretch="Uniform"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
                         <TextBlock Text="Нажмите для загрузки" 
-                                   Foreground="#8E8E93"
-                                   FontSize="12"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Visibility="{Binding PhotoVisibility}"/>
+                   Foreground="#8E8E93"
+                   FontSize="12"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Visibility="{Binding PhotoVisibility}"/>
                     </Grid>
                 </Border>
 
@@ -150,12 +149,12 @@
                 <!-- Направление -->
                 <TextBlock Text="Направление" Style="{StaticResource FormLabelStyle}"/>
                 <Border Style="{StaticResource FormInputStyle}">
-                    <ComboBox ItemsSource="{Binding Directions}"
-                              SelectedItem="{Binding SelectedDirection}"
-                              DisplayMemberPath="Value"
-                              SelectedValuePath="Key"
-                              BorderThickness="0" Background="Transparent" FontSize="14"
-                              VerticalContentAlignment="Center"/>
+                    <ComboBox ItemsSource="{Binding Directions}" 
+          SelectedValue="{Binding SelectedDirection, Mode=TwoWay}"
+          DisplayMemberPath="Value"
+          SelectedValuePath="Key"
+          BorderThickness="0" Background="Transparent" FontSize="14"
+          VerticalContentAlignment="Center"/>
                 </Border>
 
                 <!-- Email -->

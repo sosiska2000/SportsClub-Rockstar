@@ -76,10 +76,11 @@
                            FontSize="14" Foreground="#8E8E93"/>
             </StackPanel>
 
+            <Button Content="Назад" Style="{StaticResource PrimaryButtonStyle}" Click="LogoutButton_Click" Width="120" Margin="859,10,41,9"/>
             <Button
                     Content="+ Добавить тренера"
                     Style="{StaticResource PrimaryButtonStyle}"
-                    Command="{Binding AddTrainerCommand}" Grid.ColumnSpan="2" Margin="855,9,0,10"/>
+                    Command="{Binding AddTrainerCommand}" Margin="662,10,197,9"/>
         </Grid>
 
         <!-- Фильтр -->
@@ -88,7 +89,7 @@
                        FontSize="14" Foreground="#2C2C2E" 
                        VerticalAlignment="Center" Margin="0,0,12,0"/>
             <ComboBox ItemsSource="{Binding Directions}"
-                      SelectedItem="{Binding SelectedDirection}"
+                      SelectedValue="{Binding SelectedDirection}"
                       DisplayMemberPath="Value"
                       SelectedValuePath="Key"
                       Style="{StaticResource FilterComboBoxStyle}"
@@ -111,6 +112,14 @@
                         <WrapPanel Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:TrainerCardControl 
+                            Trainer="{Binding}"
+                            EditCommand="{Binding DataContext.EditTrainerCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                            DeleteCommand="{Binding DataContext.DeleteTrainerCommand, RelativeSource={RelativeSource AncestorType=Page}}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
     </Grid>

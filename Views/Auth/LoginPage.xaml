@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d"
-      Background="#F5F7FA" MaxHeight="645" MaxWidth="520" MinHeight="645" MinWidth="520">
+      Background="#F5F7FA" MinHeight="750" MinWidth="520">
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">

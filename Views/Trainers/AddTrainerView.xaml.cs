@@ -3,11 +3,13 @@ using Microsoft.Win32;
 using Rockstar.Admin.WPF.Services.Interfaces;
 using Rockstar.Admin.WPF.ViewModels.Trainers;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Rockstar.Admin.WPF.Views.Trainers
 {
@@ -25,12 +27,21 @@ namespace Rockstar.Admin.WPF.Views.Trainers
             DataContext = _viewModel;
 
             // Привязка пароля
-            PasswordBox.PasswordChanged += (s, e) => _viewModel.Password = PasswordBox.Password;
+            PasswordBox.PasswordChanged += (s, e) =>
+            {
+                _viewModel.Password = PasswordBox.Password;
+            };
 
             // Если редактирование — заполняем пароль визуально
             if (trainer != null && !string.IsNullOrEmpty(trainer.PasswordHash))
             {
-                PasswordBox.Password = "••••••••";
+                PasswordBox.Password = "********";
+            }
+
+            // Если есть фото при редактировании, отображаем его
+            if (trainer?.Photo != null && trainer.Photo.Length > 0)
+            {
+                LoadPhotoFromBytes(trainer.Photo);
             }
         }
 
@@ -38,14 +49,40 @@ namespace Rockstar.Admin.WPF.Views.Trainers
         {
             var openFileDialog = new OpenFileDialog
             {
-                Filter = "Image files|*.jpg;*.jpeg;*.png;*.gif",
+                Filter = "Image files|*.jpg;*.jpeg;*.png;*.gif|All files|*.*",
                 Title = "Выберите фотографию"
             };
 
             if (openFileDialog.ShowDialog() == true)
             {
-                var bytes = File.ReadAllBytes(openFileDialog.FileName);
-                _viewModel.Photo = bytes;
+                try
+                {
+                    var bytes = File.ReadAllBytes(openFileDialog.FileName);
+                    _viewModel.Photo = bytes;
+                    LoadPhotoFromBytes(bytes);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка загрузки изображения: {ex.Message}", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void LoadPhotoFromBytes(byte[] imageBytes)
+        {
+            try
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.StreamSource = new MemoryStream(imageBytes);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                PhotoImage.Source = bitmap;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error loading photo: {ex.Message}");
             }
         }
 

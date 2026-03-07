@@ -1,5 +1,6 @@
 ﻿using Rockstar.Admin.WPF.Services.Interfaces;
 using Rockstar.Admin.WPF.ViewModels.Base;
+using Rockstar.Admin.WPF.Views.Auth;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -18,23 +19,18 @@ namespace Rockstar.Admin.WPF.ViewModels.Main
             _navigate = navigate;
         }
 
-        // 🔑 Все команды без параметра
-        public ICommand OpenClientsCommand => new RelayCommand(() => NavigateToSection("Clients"));
-        public ICommand OpenSubscriptionsCommand => new RelayCommand(() => NavigateToSection("Subscriptions"));
-        public ICommand OpenTrainersCommand => new RelayCommand(() => NavigateToSection("Trainers"));
-        public ICommand OpenDirectionsCommand => new RelayCommand(() => NavigateToSection("Directions"));
-        public ICommand OpenScheduleCommand => new RelayCommand(() => NavigateToSection("Schedule"));
+        // 🔑 RelayCommand БЕЗ параметра - используем () =>
+        public ICommand OpenTrainersCommand => new RelayCommand(() => _navigate(new Views.Trainers.TrainersView(_navigate)));
+        public ICommand OpenClientsCommand => new RelayCommand(() => _navigate(new Views.Clients.ClientsView(_navigate)));
+        public ICommand OpenSubscriptionsCommand => new RelayCommand(() => _navigate(new Views.Subscriptions.SubscriptionsView(_navigate)));
+        public ICommand OpenDirectionsCommand => new RelayCommand(() => _navigate(new Views.Directions.DirectionsView(_navigate)));
+        public ICommand OpenScheduleCommand => new RelayCommand(() => _navigate(new Views.Schedule.ScheduleView(_navigate)));
         public ICommand LogoutCommand => new RelayCommand(async () => await ExecuteLogout());
-
-        private void NavigateToSection(string section)
-        {
-            System.Diagnostics.Debug.WriteLine($"Navigate to: {section}");
-        }
 
         private async Task ExecuteLogout()
         {
             await _authService.LogoutAsync();
-            _navigate(new Views.Auth.LoginPage(_navigate));
+            _navigate(new LoginPage(_navigate));
         }
     }
 }

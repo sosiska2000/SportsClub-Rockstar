@@ -4,23 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="320" d:DesignWidth="280">
+             d:DesignHeight="450" d:DesignWidth="350"
+             x:Name="CardControl">
 
     <UserControl.Resources>
-        <Style x:Key="CardBorderStyle" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#E8E8ED"/>
-            <Setter Property="Padding" Value="16"/>
-            <Setter Property="Margin" Value="8"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="#000000" Opacity="0.06" BlurRadius="12" Direction="270" ShadowDepth="2"/>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <Style x:Key="CardButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#FF4D00"/>
@@ -43,69 +30,75 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <Style x:Key="DirectionBadgeStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Padding" Value="8,4"/>
-            <Setter Property="Background" Value="#FFF5F0"/>
-            <Setter Property="Foreground" Value="#FF4D00"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-        </Style>
     </UserControl.Resources>
 
-    <Border Style="{StaticResource CardBorderStyle}" Width="280">
+    <Border Background="White" 
+            CornerRadius="12" 
+            BorderThickness="1" 
+            BorderBrush="#E8E8ED"
+            Padding="0"
+            Margin="8"
+            Width="350">
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="20" Direction="270" ShadowDepth="4"/>
+        </Border.Effect>
+
         <StackPanel>
-            <!-- Фото -->
-            <Border Width="120" Height="120" 
-                    Background="#F5F7FA" 
-                    CornerRadius="60" 
-                    HorizontalAlignment="Center"
-                    Margin="0,0,0,12"
+            <!-- Фото тренера -->
+            <Border Height="300" 
+                    Background="#F5F7FA"
                     ClipToBounds="True">
-                <Image Source="{Binding PhotoSource}"
-                       Stretch="UniformToFill"/>
+                <Image Source="{Binding PhotoSource, ElementName=CardControl}"
+                       Stretch="UniformToFill"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
             </Border>
 
-            <!-- Имя -->
-            <TextBlock Text="{Binding FullName}"
-                       FontSize="16" FontWeight="SemiBold"
-                       Foreground="#2C2C2E"
-                       HorizontalAlignment="Center"
-                       TextWrapping="Wrap"
-                       TextAlignment="Center"/>
+            <!-- Информация о тренере -->
+            <StackPanel Margin="20,16,20,16">
+                <!-- Имя -->
+                <TextBlock Text="{Binding FullName, ElementName=CardControl}"
+                           FontSize="18" 
+                           FontWeight="SemiBold"
+                           Foreground="#2C2C2E"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,8"/>
 
-            <!-- Направление -->
-            <TextBlock Text="{Binding DirectionDisplayName}"
-                       Style="{StaticResource DirectionBadgeStyle}"
-                       Margin="0,8,0,0"/>
+                <!-- Направление -->
+                <TextBlock Text="{Binding DirectionDisplayName, ElementName=CardControl}"
+                           FontSize="13" 
+                           Foreground="#8E8E93"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,12"/>
 
-            <!-- Стаж -->
-            <TextBlock Text="{Binding ExperienceText}"
-                       FontSize="13" Foreground="#8E8E93"
-                       HorizontalAlignment="Center"
-                       Margin="0,4,0,0"/>
+                <!-- Стаж -->
+                <TextBlock Text="{Binding ExperienceText, ElementName=CardControl}"
+                           FontSize="13" 
+                           Foreground="#8E8E93"
+                           Margin="0,0,0,12"/>
 
-            <!-- Описание -->
-            <TextBlock Text="{Binding Description}"
-                       FontSize="13" Foreground="#666666"
-                       TextWrapping="Wrap"
-                       MaxHeight="60"
-                       TextTrimming="CharacterEllipsis"
-                       Margin="0,12,0,0"/>
+                <!-- Описание -->
+                <TextBlock Text="{Binding Description, ElementName=CardControl}"
+                           FontSize="13" 
+                           Foreground="#666666"
+                           TextWrapping="Wrap"
+                           LineHeight="18"
+                           Margin="0,0,0,16"/>
 
-            <!-- Кнопки -->
-            <StackPanel Orientation="Horizontal" 
-                        HorizontalAlignment="Center" 
-                        Margin="0,16,0,0">
-                <Button Content="Редактировать"
-                        Style="{StaticResource CardButtonStyle}"
-                        Command="{Binding EditCommand}"
-                        Margin="0,0,8,0"/>
-                <Button Content="Удалить"
-                        Style="{StaticResource CardButtonStyle}"
-                        Foreground="#FF5252"
-                        Command="{Binding DeleteCommand}"/>
+                <!-- Кнопки -->
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Left">
+                    <Button Content="Редактировать"
+                            Style="{StaticResource CardButtonStyle}"
+                            Command="{Binding EditCommand, ElementName=CardControl}"
+                            CommandParameter="{Binding Trainer, ElementName=CardControl}"
+                            Margin="0,0,12,0"/>
+                    <Button Content="Удалить"
+                            Style="{StaticResource CardButtonStyle}"
+                            Foreground="#FF5252"
+                            Command="{Binding DeleteCommand, ElementName=CardControl}"
+                            CommandParameter="{Binding Trainer, ElementName=CardControl}"/>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </Border>

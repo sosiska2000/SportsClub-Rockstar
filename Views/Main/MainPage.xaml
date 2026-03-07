@@ -3,10 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      mc:Ignorable="d"
-      d:DesignHeight="750" d:DesignWidth="1100"
+      mc:Ignorable="d" d:DesignWidth="1100"
       Background="#F5F7FA"
-      FontFamily="Segoe UI">
+      FontFamily="Segoe UI" MinHeight="530">
 
     <Page.Resources>
         <Style x:Key="MenuButtonStyle" TargetType="Button">

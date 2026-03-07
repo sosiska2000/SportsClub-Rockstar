@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="Rockstar.Admin.WPF.Views.Subscriptions.Controls.SubscriptionCardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="280" d:DesignWidth="300"
+             x:Name="SubscriptionCard">
+
+    <UserControl.Resources>
+        <Style x:Key="CardButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FF4D00"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFF5F0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DeleteButtonStyle" TargetType="Button" BasedOn="{StaticResource CardButtonStyle}">
+            <Setter Property="Foreground" Value="#FF5252"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="White" 
+            CornerRadius="12" 
+            BorderThickness="1" 
+            BorderBrush="#E8E8ED"
+            Padding="0"
+            Margin="0,0,16,16"
+            Width="280">
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" Opacity="0.04" BlurRadius="12" Direction="270" ShadowDepth="2"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Цветная полоска вверху карточки (цвет направления) -->
+            <Border Grid.Row="0" 
+                    Background="{Binding DirectionColor, ElementName=SubscriptionCard}"
+                    CornerRadius="12 12 0 0"/>
+
+            <!-- Основной контент -->
+            <StackPanel Grid.Row="1" Margin="16,12,16,0">
+                <!-- Название абонемента -->
+                <TextBlock Text="{Binding SubscriptionName, ElementName=SubscriptionCard}" 
+                           FontSize="18" FontWeight="SemiBold"
+                           Foreground="#2C2C2E"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,8"/>
+
+                <!-- Направление -->
+                <Border Background="#F5F5F5"
+                        CornerRadius="16"
+                        Padding="8,4"
+                        HorizontalAlignment="Left"
+                        Margin="0,0,0,12">
+                    <TextBlock Text="{Binding DirectionName, ElementName=SubscriptionCard}" 
+                               FontSize="12" FontWeight="Medium"
+                               Foreground="#666666"/>
+                </Border>
+
+                <!-- Стоимость -->
+                <TextBlock Text="{Binding PriceText, ElementName=SubscriptionCard}" 
+                           FontSize="24" FontWeight="Bold"
+                           Foreground="{Binding DirectionColor, ElementName=SubscriptionCard}"
+                           Margin="0,0,0,8"/>
+
+                <!-- Количество занятий -->
+                <TextBlock Text="{Binding SessionsText, ElementName=SubscriptionCard}" 
+                           FontSize="13" Foreground="#8E8E93"
+                           Margin="0,0,0,8"/>
+
+                <!-- Описание -->
+                <TextBlock Text="{Binding SubscriptionDescription, ElementName=SubscriptionCard}" 
+                           FontSize="12" Foreground="#666666"
+                           TextWrapping="Wrap"
+                           LineHeight="16"
+                           MaxHeight="48"
+                           Margin="0,0,0,12"/>
+            </StackPanel>
+
+            <!-- Кнопки действий -->
+            <StackPanel Grid.Row="3" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Right"
+                        Margin="16,0,16,16">
+                <Button Content="Редактировать"
+                        Style="{StaticResource CardButtonStyle}"
+                        Command="{Binding EditCommand, ElementName=SubscriptionCard}"
+                        CommandParameter="{Binding Subscription, ElementName=SubscriptionCard}"
+                        Margin="0,0,8,0"/>
+                <Button Content="Удалить"
+                        Style="{StaticResource DeleteButtonStyle}"
+                        Command="{Binding DeleteCommand, ElementName=SubscriptionCard}"
+                        CommandParameter="{Binding Subscription, ElementName=SubscriptionCard}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

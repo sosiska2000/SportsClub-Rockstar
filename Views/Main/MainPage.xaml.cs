@@ -26,9 +26,10 @@ namespace Rockstar.Admin.WPF.Views.Main
             _navigate(new ClientsView(_navigate));
         }
 
+
         private void SubscriptionsButton_Click(object sender, RoutedEventArgs e)
         {
-            _navigate(new SubscriptionsView(_navigate));
+            _navigate(new Views.Subscriptions.SubscriptionsView(_navigate));
         }
 
         private void TrainersButton_Click(object sender, RoutedEventArgs e)

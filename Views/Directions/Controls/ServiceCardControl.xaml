@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="Rockstar.Admin.WPF.Views.Directions.Controls.ServiceCardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignWidth="300"
+             x:Name="ServiceCard" Height="308">
+
+    <UserControl.Resources>
+        <Style x:Key="CardButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FF4D00"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFF5F0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DeleteButtonStyle" TargetType="Button" BasedOn="{StaticResource CardButtonStyle}">
+            <Setter Property="Foreground" Value="#FF5252"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="White" 
+            CornerRadius="12" 
+            BorderThickness="1" 
+            BorderBrush="#E8E8ED"
+            Padding="16"
+            Margin="0,0,16,16"
+            Width="280">
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" Opacity="0.04" BlurRadius="12" Direction="270" ShadowDepth="2"/>
+        </Border.Effect>
+
+        <StackPanel>
+            <!-- Название услуги -->
+            <TextBlock Text="{Binding ServiceName, ElementName=ServiceCard}" 
+                       FontSize="16" FontWeight="SemiBold"
+                       Foreground="#2C2C2E"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,8"/>
+
+            <!-- Стоимость -->
+            <TextBlock Text="{Binding PriceText, ElementName=ServiceCard}" 
+                       FontSize="20" FontWeight="Bold"
+                       Foreground="#FF4D00"
+                       Margin="0,0,0,8"/>
+
+            <!-- Количество занятий -->
+            <TextBlock Text="{Binding SessionsText, ElementName=ServiceCard}" 
+                       FontSize="13" Foreground="#8E8E93"
+                       Margin="0,0,0,4"/>
+
+            <!-- Длительность -->
+            <TextBlock Text="{Binding DurationText, ElementName=ServiceCard}" 
+                       FontSize="13" Foreground="#8E8E93"
+                       Margin="0,0,0,12"/>
+
+            <!-- Описание -->
+            <TextBlock Text="{Binding ServiceDescription, ElementName=ServiceCard}" 
+                       FontSize="12" Foreground="#666666"
+                       TextWrapping="Wrap"
+                       LineHeight="16"
+                       MaxHeight="48"
+                       Margin="0,0,0,16"/>
+
+            <!-- Кнопки действий -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Редактировать"
+                        Style="{StaticResource CardButtonStyle}"
+                        Command="{Binding EditCommand, ElementName=ServiceCard}"
+                        CommandParameter="{Binding Service, ElementName=ServiceCard}"
+                        Margin="0,0,8,0"/>
+                <Button Content="Удалить"
+                        Style="{StaticResource DeleteButtonStyle}"
+                        Command="{Binding DeleteCommand, ElementName=ServiceCard}"
+                        CommandParameter="{Binding Service, ElementName=ServiceCard}"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

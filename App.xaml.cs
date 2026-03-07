@@ -30,20 +30,18 @@ namespace Rockstar.Admin.WPF
                 ConfigureServices(services);
                 Services = services.BuildServiceProvider();
 
-                // 🔑 Создание и показ главного окна
+                // Создание и показ главного окна
                 var mainWindow = new MainWindow();
                 mainWindow.Show();
             }
             catch (Exception ex)
             {
-                // 🔑 Ловим все ошибки и показываем их
                 MessageBox.Show(
                     $"Ошибка при запуске приложения:\n\n{ex.Message}\n\n{ex.StackTrace}",
                     "Критическая ошибка",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
 
-                // Завершаем приложение
                 Shutdown();
             }
         }
@@ -56,9 +54,16 @@ namespace Rockstar.Admin.WPF
             // База данных
             services.AddSingleton<MySqlDbContext>();
 
-            // Сервисы
+            // Сервисы аутентификации
             services.AddSingleton<IAuthService, AuthService>();
+
+            // Сервисы для тренеров
             services.AddSingleton<ITrainerService, TrainerService>();
+
+            // Сервисы для направлений и услуг
+            services.AddSingleton<IDirectionService, DirectionService>();
+            services.AddSingleton<IServiceService, ServiceService>();
+            services.AddSingleton<IServiceTypeService, ServiceTypeService>();
 
             // Тестовый сервис
             services.AddSingleton<DatabaseTestService>();
@@ -70,6 +75,8 @@ namespace Rockstar.Admin.WPF
                 builder.AddDebug();
                 builder.SetMinimumLevel(LogLevel.Debug);
             });
+            // Сервисы для абонементов
+            services.AddSingleton<ISubscriptionService, SubscriptionService>();
         }
     }
 }

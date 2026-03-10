@@ -48,35 +48,22 @@ namespace Rockstar.Admin.WPF
 
         private static void ConfigureServices(ServiceCollection services)
         {
-            // Регистрация IConfiguration
             services.AddSingleton<IConfiguration>(Configuration);
-
-            // База данных
             services.AddSingleton<MySqlDbContext>();
 
-            // Сервисы аутентификации
+            // Сервисы
             services.AddSingleton<IAuthService, AuthService>();
-
-            // Сервисы для тренеров
             services.AddSingleton<ITrainerService, TrainerService>();
+            services.AddSingleton<IClientService, ClientService>();
 
-            // Сервисы для направлений и услуг
-            services.AddSingleton<IDirectionService, DirectionService>();
-            services.AddSingleton<IServiceService, ServiceService>();
-            services.AddSingleton<IServiceTypeService, ServiceTypeService>();
-
-            // Тестовый сервис
             services.AddSingleton<DatabaseTestService>();
 
-            // Логи
             services.AddLogging(builder =>
             {
                 builder.AddConsole();
                 builder.AddDebug();
                 builder.SetMinimumLevel(LogLevel.Debug);
             });
-            // Сервисы для абонементов
-            services.AddSingleton<ISubscriptionService, SubscriptionService>();
         }
     }
 }

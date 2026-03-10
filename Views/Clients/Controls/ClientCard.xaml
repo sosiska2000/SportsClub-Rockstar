@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="Rockstar.Admin.WPF.Views.Clients.Controls.ClientCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="350"
+             x:Name="CardControl">
+
+    <Border Background="White" 
+            CornerRadius="12" 
+            BorderThickness="1" 
+            BorderBrush="#E8E8ED"
+            Padding="0"
+            Margin="8"
+            Width="350">
+        <Border.Effect>
+            <DropShadowEffect Color="#000000" Opacity="0.08" BlurRadius="20" Direction="270" ShadowDepth="4"/>
+        </Border.Effect>
+
+        <StackPanel>
+            <!-- Фото клиента -->
+            <Border Height="300" 
+        Background="#F5F7FA"
+        ClipToBounds="True">
+                <Grid>
+                    <!-- Заглушка (будет снизу) -->
+                    <Border x:Name="PlaceholderBorder"
+                Background="#E8E8ED"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Width="100"
+                Height="100"
+                CornerRadius="50">
+                        <TextBlock Text="👤"
+                       FontSize="48"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="#999999"/>
+                    </Border>
+
+                    <!-- Фото (будет поверх заглушки, если загрузится) -->
+                    <Image Source="{Binding PhotoSource, ElementName=CardControl}"
+               Stretch="UniformToFill"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- Информация о клиенте -->
+            <StackPanel Margin="20,16,20,16">
+                <TextBlock Text="{Binding FullName, ElementName=CardControl, Mode=OneWay}"
+           FontSize="18" 
+           FontWeight="SemiBold"
+           Foreground="#2C2C2E"
+           Margin="0,0,0,8"/>
+
+                <TextBlock Text="{Binding Email, ElementName=CardControl}"
+                           FontSize="13" 
+                           Foreground="#8E8E93"
+                           Margin="0,0,0,4"/>
+
+                <TextBlock Text="{Binding PhoneText, ElementName=CardControl}"
+                           FontSize="13" 
+                           Foreground="#8E8E93"
+                           Margin="0,0,0,12"/>
+
+                <TextBlock Text="{Binding AgeText, ElementName=CardControl}"
+                           FontSize="13" 
+                           Foreground="#666666"
+                           Margin="0,0,0,16"/>
+
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Left">
+                    <Button Content="Редактировать"
+                            Background="Transparent"
+                            Foreground="#FF4D00"
+                            FontSize="12"
+                            Cursor="Hand"
+                            Command="{Binding EditCommand, ElementName=CardControl}"
+                            CommandParameter="{Binding Client, ElementName=CardControl}"
+                            Margin="0,0,12,0">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FFF5F0"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button Content="Удалить"
+                            Background="Transparent"
+                            Foreground="#FF5252"
+                            FontSize="12"
+                            Cursor="Hand"
+                            Command="{Binding DeleteCommand, ElementName=CardControl}"
+                            CommandParameter="{Binding Client, ElementName=CardControl}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="6">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FFF5F0"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

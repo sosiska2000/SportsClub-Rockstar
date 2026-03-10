@@ -7,6 +7,6 @@ namespace Rockstar.Admin.WPF.Services.Interfaces
         Task<AuthResult> LoginAsync(string email, string password);
         Task LogoutAsync();
         bool IsAuthenticated { get; }
-        User? CurrentUser { get; }
+        Client? CurrentUser { get; }  // 🔑 Было User?, стало Client?
     }
 }

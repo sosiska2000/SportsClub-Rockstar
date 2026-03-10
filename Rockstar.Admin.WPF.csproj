@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\default-avatar.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Resources\Styles\" />
   </ItemGroup>
 
@@ -27,6 +31,10 @@
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageReference Include="System.Net.Http.Json" Version="10.0.3" />
     <PackageReference Include="WriteableBitmapEx" Version="1.6.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\default-avatar.png" />
   </ItemGroup>
 
 </Project>

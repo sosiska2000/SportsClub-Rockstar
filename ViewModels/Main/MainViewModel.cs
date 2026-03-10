@@ -19,9 +19,9 @@ namespace Rockstar.Admin.WPF.ViewModels.Main
             _navigate = navigate;
         }
 
-        // 🔑 RelayCommand БЕЗ параметра - используем () =>
-        public ICommand OpenTrainersCommand => new RelayCommand(() => _navigate(new Views.Trainers.TrainersView(_navigate)));
+        // 🔑 Оставить только ОДНО определение каждой команды
         public ICommand OpenClientsCommand => new RelayCommand(() => _navigate(new Views.Clients.ClientsView(_navigate)));
+        public ICommand OpenTrainersCommand => new RelayCommand(() => _navigate(new Views.Trainers.TrainersView(_navigate)));
         public ICommand OpenSubscriptionsCommand => new RelayCommand(() => _navigate(new Views.Subscriptions.SubscriptionsView(_navigate)));
         public ICommand OpenDirectionsCommand => new RelayCommand(() => _navigate(new Views.Directions.DirectionsView(_navigate)));
         public ICommand OpenScheduleCommand => new RelayCommand(() => _navigate(new Views.Schedule.ScheduleView(_navigate)));

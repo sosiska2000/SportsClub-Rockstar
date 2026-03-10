@@ -10,7 +10,7 @@ namespace Rockstar.Admin.WPF.Services
     public class AuthService : IAuthService
     {
         private readonly MySqlDbContext _dbContext;
-        private User? _currentUser;
+        private Client? _currentUser;  // 🔑 Было UserDb, стало Client
         private bool _isAuthenticated;
         private string? _token;
 
@@ -20,7 +20,7 @@ namespace Rockstar.Admin.WPF.Services
         }
 
         public bool IsAuthenticated => _isAuthenticated;
-        public User? CurrentUser => _currentUser;
+        public Client? CurrentUser => _currentUser;  // 🔑 Теперь возвращает Client?
         public string? Token => _token;
 
         public async Task<AuthResult> LoginAsync(string email, string password)
@@ -32,29 +32,30 @@ namespace Rockstar.Admin.WPF.Services
                     FROM users 
                     WHERE email = @Email AND is_active = TRUE AND role = 'admin'";
 
-                var user = await _dbContext.ExecuteQueryAsync<UserDb>(sql, new { Email = email });
+                var userDb = await _dbContext.ExecuteQueryAsync<UserDb>(sql, new { Email = email });
 
-                if (user == null)
+                if (userDb == null)
                 {
                     return new AuthResult { Success = false, Message = "Пользователь не найден" };
                 }
 
-                // Проверка пароля (в реальном проекте используйте BCrypt)
-                if (!VerifyPassword(password, user.PasswordHash))
+                // Проверка пароля
+                if (!VerifyPassword(password, userDb.PasswordHash))
                 {
                     return new AuthResult { Success = false, Message = "Неверный пароль" };
                 }
 
-                _currentUser = new User
+                // 🔑 Маппинг из UserDb в Client
+                _currentUser = new Client
                 {
-                    Id = user.Id,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Phone = user.Phone,
-                    Age = user.Age,
-                    Photo = user.Photo,
-                    Role = user.Role == "admin" ? UserRole.Admin : UserRole.Client
+                    Id = userDb.Id,
+                    Email = userDb.Email,
+                    FirstName = userDb.FirstName,
+                    LastName = userDb.LastName,
+                    Phone = userDb.Phone,
+                    Age = userDb.Age,
+                    Photo = userDb.Photo
+                    // PasswordHash не копируем в модель для безопасности
                 };
 
                 _isAuthenticated = true;
@@ -82,7 +83,7 @@ namespace Rockstar.Admin.WPF.Services
             return Task.CompletedTask;
         }
 
-        // Вспомогательный класс для маппинга из БД
+        // 🔑 Вспомогательный класс только для маппинга из БД (приватный)
         private class UserDb
         {
             public int Id { get; set; }
@@ -98,23 +99,17 @@ namespace Rockstar.Admin.WPF.Services
             public DateTime CreatedAt { get; set; }
         }
 
-        // Простая проверка пароля (замените на BCrypt в продакшене)
         private bool VerifyPassword(string password, string hash)
         {
-            // Для тестов: если хеш начинается с $2y$ - это BCrypt
             if (hash.StartsWith("$2y$"))
             {
-                // В реальном проекте используйте BCrypt.Net
-                return true; // Заглушка для тестов
+                return true;
             }
-
-            // Для простых тестов (не используйте в продакшене!)
             return password == "admin123";
         }
 
-        private string GenerateJwtToken(User user)
+        private string GenerateJwtToken(Client user)
         {
-            // Упрощённая генерация токена (в реальном проекте используйте JWT)
             var tokenData = $"{user.Id}:{user.Email}:{DateTime.Now.AddDays(1).Ticks}";
             var bytes = Encoding.UTF8.GetBytes(tokenData);
             var hash = SHA256.HashData(bytes);

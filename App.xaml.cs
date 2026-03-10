@@ -55,7 +55,7 @@ namespace Rockstar.Admin.WPF
             services.AddSingleton<IAuthService, AuthService>();
             services.AddSingleton<ITrainerService, TrainerService>();
             services.AddSingleton<IClientService, ClientService>();
-
+            services.AddSingleton<IScheduleService, ScheduleService>();
             services.AddSingleton<DatabaseTestService>();
 
             services.AddLogging(builder =>

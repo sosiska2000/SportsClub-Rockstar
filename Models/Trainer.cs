@@ -7,7 +7,8 @@ namespace Rockstar.Admin.WPF.Models
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public string Direction { get; set; } = string.Empty;
+        public int? DirectionId { get; set; }
+        public string Direction { get; set; } = string.Empty; // Для обратной совместимости
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public byte[]? Photo { get; set; }

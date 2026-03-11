@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RockstarMobile</string>
+    <string name="app_name">Rockstar Mobile</string>
+    <string name="trainer_prefix">Тренер: %s</string>
 </resources>

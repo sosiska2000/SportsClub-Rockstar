@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!-- Верхняя панель -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_gradient_small"
+        android:padding="12dp">
+
+        <ImageButton
+            android:id="@+id/ivBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_back"
+            android:background="@android:color/transparent"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ПРОФИЛЬ"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Фото профиля -->
+            <RelativeLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp">
+
+                <ImageView
+                    android:id="@+id/ivProfilePhoto"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/default_avatar"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/circle_background"/>
+
+                <ImageView
+                    android:id="@+id/ivEditPhoto"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_edit"
+                    android:background="@drawable/circle_primary"
+                    android:padding="8dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
+
+            <!-- Email (нередактируемый) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="14sp"
+                android:textColor="#8E8E93"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="user@example.com"
+                android:textSize="16sp"
+                android:textColor="#2C2C2E"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Имя -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Имя"
+                android:textSize="14sp"
+                android:textColor="#8E8E93"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/etFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Введите имя"
+                android:textSize="16sp"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Фамилия -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Фамилия"
+                android:textSize="14sp"
+                android:textColor="#8E8E93"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/etLastName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Введите фамилию"
+                android:textSize="16sp"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Возраст -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Возраст"
+                android:textSize="14sp"
+                android:textColor="#8E8E93"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/etAge"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Введите возраст"
+                android:textSize="16sp"
+                android:inputType="number"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Телефон -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Номер телефона"
+                android:textSize="14sp"
+                android:textColor="#8E8E93"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Введите телефон"
+                android:textSize="16sp"
+                android:inputType="phone"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Прогресс бар -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Кнопка сохранения -->
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="СОХРАНИТЬ"
+                android:textColor="@android:color/white"
+                android:background="@drawable/btn_primary"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Кнопка смены пароля -->
+            <Button
+                android:id="@+id/btnChangePassword"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Изменить пароль"
+                android:textColor="#FF4D00"
+                android:background="@android:color/transparent"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Кнопка выхода -->
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="ВЫЙТИ"
+                android:textColor="#FF5252"
+                android:background="@android:color/transparent"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

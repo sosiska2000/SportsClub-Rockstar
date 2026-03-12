@@ -1,0 +1,273 @@
+﻿<Page x:Class="Rockstar.Admin.WPF.Views.Schedule.ScheduleDetailsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="900"
+      Background="#F5F7FA"
+      Title="ScheduleDetailsView"
+      x:Name="ScheduleDetailsPage">
+
+    <Page.Resources>
+        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#2C2C2E"/>
+            <Setter Property="Margin" Value="0,0,0,16"/>
+        </Style>
+
+        <Style x:Key="InfoLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#8E8E93"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+
+        <Style x:Key="InfoValueStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="#2C2C2E"/>
+            <Setter Property="Margin" Value="0,0,0,16"/>
+        </Style>
+
+        <Style x:Key="ClientCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E8E8ED"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FF4D00"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="24,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E64500"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="24,0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E8E8ED"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель -->
+        <Grid Grid.Row="0" Margin="0,0,0,24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="{Binding Schedule.DirectionName}" 
+                           FontSize="28" 
+                           FontWeight="SemiBold" 
+                           Foreground="#2C2C2E"/>
+                <TextBlock Text="{Binding Schedule.ServiceName}" 
+                           FontSize="18" 
+                           Foreground="#FF4D00" 
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <Button Grid.Column="1"
+                    Content="Назад"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Command="{Binding BackCommand}"
+                    Width="120"/>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" 
+                      VerticalScrollBarVisibility="Auto"
+                      Margin="0,0,0,24">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Левая колонка - информация о занятии -->
+                <StackPanel Grid.Column="0">
+                    <Border Background="White" 
+                            CornerRadius="12" 
+                            Padding="24" 
+                            Margin="0,0,0,16">
+                        <StackPanel>
+                            <TextBlock Text="Информация о занятии" Style="{StaticResource SectionTitleStyle}"/>
+
+                            <TextBlock Text="Тренер" Style="{StaticResource InfoLabelStyle}"/>
+                            <TextBlock Text="{Binding Schedule.TrainerName}" Style="{StaticResource InfoValueStyle}"/>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Дата" Style="{StaticResource InfoLabelStyle}"/>
+                                    <TextBlock Text="{Binding Schedule.DateDisplay}" Style="{StaticResource InfoValueStyle}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Время" Style="{StaticResource InfoLabelStyle}"/>
+                                    <TextBlock Text="{Binding Schedule.TimeRange}" Style="{StaticResource InfoValueStyle}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Длительность" Style="{StaticResource InfoLabelStyle}"/>
+                                    <TextBlock Text="{Binding Schedule.DurationMinutes, StringFormat={}{0} мин}" Style="{StaticResource InfoValueStyle}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Цена" Style="{StaticResource InfoLabelStyle}"/>
+                                    <TextBlock Text="{Binding Schedule.Price, StringFormat={}{0} ₽}" Style="{StaticResource InfoValueStyle}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Text="Участники" Style="{StaticResource InfoLabelStyle}"/>
+                            <TextBlock Text="{Binding Schedule.ParticipantsDisplay}" 
+                                       FontSize="16" 
+                                       FontWeight="Medium" 
+                                       Foreground="{Binding Schedule.CurrentParticipants}"
+                                       Margin="0,0,0,16"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Добавление клиента -->
+                    <Border Background="White" 
+                            CornerRadius="12" 
+                            Padding="24">
+                        <StackPanel>
+                            <TextBlock Text="Добавить клиента" Style="{StaticResource SectionTitleStyle}"/>
+
+                            <ComboBox ItemsSource="{Binding AvailableClients}"
+                                      SelectedItem="{Binding SelectedClient}"
+                                      DisplayMemberPath="FullName"
+                                      Margin="0,0,0,16"
+                                      Height="44"
+                                      FontSize="14"/>
+
+                            <Button Content="Добавить в запись"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Command="{Binding AddClientCommand}"
+                                    IsEnabled="{Binding CanAddClient}"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Правая колонка - список записанных клиентов -->
+                <StackPanel Grid.Column="2">
+                    <Border Background="White" 
+                            CornerRadius="12" 
+                            Padding="24">
+                        <StackPanel>
+                            <TextBlock Text="Записанные клиенты" Style="{StaticResource SectionTitleStyle}"/>
+
+                            <ItemsControl ItemsSource="{Binding Enrollments}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource ClientCardStyle}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="{Binding UserName}" 
+                                                               FontSize="14" 
+                                                               FontWeight="Medium" 
+                                                               Foreground="#2C2C2E"/>
+                                                    <TextBlock Text="{Binding UserEmail}" 
+                                                               FontSize="12" 
+                                                               Foreground="#8E8E93" 
+                                                               Margin="0,4,0,0"/>
+                                                </StackPanel>
+
+                                                <Button Grid.Column="1"
+                                                        Content="🗑️"
+                                                        Background="Transparent"
+                                                        Foreground="#FF5252"
+                                                        FontSize="16"
+                                                        Padding="8"
+                                                        Command="{Binding DataContext.RemoveClientCommand, ElementName=ScheduleDetailsPage}"
+                                                        CommandParameter="{Binding Id}"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Просто показываем текст, если нет клиентов, без Visibility -->
+                            <TextBlock Text="Нет записанных клиентов" 
+                                       FontSize="14" 
+                                       Foreground="#8E8E93"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,24"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Кнопка редактирования -->
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right">
+            <Button Content="Редактировать занятие" 
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Width="180" 
+                    Command="{Binding EditScheduleCommand}"/>
+        </StackPanel>
+    </Grid>
+</Page>

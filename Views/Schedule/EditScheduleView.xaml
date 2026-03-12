@@ -1,0 +1,226 @@
+﻿<Page x:Class="Rockstar.Admin.WPF.Views.Schedule.EditScheduleView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="600"
+      Background="#F5F7FA"
+      Title="EditScheduleView"
+      x:Name="EditSchedulePage">
+
+    <Page.Resources>
+        <Style x:Key="FormLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#2C2C2E"/>
+            <Setter Property="Margin" Value="0,16,0,6"/>
+        </Style>
+
+        <Style x:Key="FormInputStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E8E8ED"/>
+            <Setter Property="Height" Value="44"/>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FF4D00"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E64500"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E8E8ED"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="{Binding PageTitle}" 
+                           FontSize="24" 
+                           FontWeight="SemiBold" 
+                           Foreground="#2C2C2E"/>
+                <TextBlock Text="Заполните информацию о занятии" 
+                           FontSize="14" 
+                           Foreground="#8E8E93" 
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <Button Grid.Column="1"
+                    Content="Назад"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Command="{Binding CancelCommand}"
+                    Width="120"/>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" 
+                      VerticalScrollBarVisibility="Auto" 
+                      Margin="0,24,0,0">
+            <StackPanel>
+                <!-- Направление -->
+                <TextBlock Text="Направление" Style="{StaticResource FormLabelStyle}"/>
+                <Border Style="{StaticResource FormInputStyle}">
+                    <ComboBox ItemsSource="{Binding Directions}"
+                              SelectedItem="{Binding SelectedDirection}"
+                              DisplayMemberPath="Name"
+                              BorderThickness="0"
+                              Background="Transparent"
+                              FontSize="14"
+                              VerticalContentAlignment="Center"
+                              Padding="12,0"/>
+                </Border>
+
+                <!-- Услуга -->
+                <TextBlock Text="Тип занятия" Style="{StaticResource FormLabelStyle}"/>
+                <Border Style="{StaticResource FormInputStyle}">
+                    <ComboBox ItemsSource="{Binding Services}"
+                              SelectedItem="{Binding SelectedService}"
+                              DisplayMemberPath="Name"
+                              BorderThickness="0"
+                              Background="Transparent"
+                              FontSize="14"
+                              VerticalContentAlignment="Center"
+                              Padding="12,0"/>
+                </Border>
+
+                <!-- Тренер -->
+                <TextBlock Text="Тренер" Style="{StaticResource FormLabelStyle}"/>
+                <Border Style="{StaticResource FormInputStyle}">
+                    <ComboBox ItemsSource="{Binding Trainers}"
+                              SelectedItem="{Binding SelectedTrainer}"
+                              DisplayMemberPath="FullName"
+                              BorderThickness="0"
+                              Background="Transparent"
+                              FontSize="14"
+                              VerticalContentAlignment="Center"
+                              Padding="12,0"/>
+                </Border>
+
+                <!-- Дата и время -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Дата" Style="{StaticResource FormLabelStyle}"/>
+                        <Border Style="{StaticResource FormInputStyle}">
+                            <DatePicker SelectedDate="{Binding Date}"
+                                       BorderThickness="0"
+                                       Background="Transparent"
+                                       FontSize="14"
+                                       VerticalContentAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Время" Style="{StaticResource FormLabelStyle}"/>
+                        <Border Style="{StaticResource FormInputStyle}">
+                            <TextBox Text="{Binding Time}"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     FontSize="14"
+                                     VerticalContentAlignment="Center"
+                                     Padding="12,0"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Длительность -->
+                <TextBlock Text="Длительность (минут)" Style="{StaticResource FormLabelStyle}"/>
+                <Border Style="{StaticResource FormInputStyle}">
+                    <TextBox Text="{Binding DurationMinutes}"
+                             BorderThickness="0"
+                             Background="Transparent"
+                             FontSize="14"
+                             VerticalContentAlignment="Center"
+                             Padding="12,0"/>
+                </Border>
+
+                <!-- Максимум участников -->
+                <TextBlock Text="Максимум участников" Style="{StaticResource FormLabelStyle}"/>
+                <Border Style="{StaticResource FormInputStyle}">
+                    <TextBox Text="{Binding MaxParticipants}"
+                             BorderThickness="0"
+                             Background="Transparent"
+                             FontSize="14"
+                             VerticalContentAlignment="Center"
+                             Padding="12,0"/>
+                </Border>
+
+                <!-- Цена -->
+                <TextBlock Text="Цена (₽)" Style="{StaticResource FormLabelStyle}"/>
+                <Border Style="{StaticResource FormInputStyle}">
+                    <TextBox Text="{Binding Price}"
+                             BorderThickness="0"
+                             Background="Transparent"
+                             FontSize="14"
+                             VerticalContentAlignment="Center"
+                             Padding="12,0"/>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Кнопка сохранения -->
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Margin="0,24,0,0">
+            <Button Content="{Binding SaveButtonText}" 
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Width="140" 
+                    Command="{Binding SaveCommand}" 
+                    IsEnabled="{Binding CanSave}"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -19,7 +19,6 @@ namespace Rockstar.Admin.WPF.ViewModels.Main
             _navigate = navigate;
         }
 
-        // 🔑 Оставить только ОДНО определение каждой команды
         public ICommand OpenClientsCommand => new RelayCommand(() => _navigate(new Views.Clients.ClientsView(_navigate)));
         public ICommand OpenTrainersCommand => new RelayCommand(() => _navigate(new Views.Trainers.TrainersView(_navigate)));
         public ICommand OpenSubscriptionsCommand => new RelayCommand(() => _navigate(new Views.Subscriptions.SubscriptionsView(_navigate)));
@@ -30,7 +29,7 @@ namespace Rockstar.Admin.WPF.ViewModels.Main
         private async Task ExecuteLogout()
         {
             await _authService.LogoutAsync();
-            _navigate(new LoginPage(_navigate));
+            _navigate(new LoginPage(App.Services, _navigate));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Rockstar.Admin.WPF.Views.Auth;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Rockstar.Admin.WPF.Views.Auth;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +14,6 @@ namespace Rockstar.Admin.WPF
             {
                 InitializeComponent();
 
-                // 🔑 Логирование для отладки
                 System.Diagnostics.Debug.WriteLine("=== MainWindow Constructor ===");
                 System.Diagnostics.Debug.WriteLine($"MainFrame initialized: {MainFrame != null}");
 
@@ -24,9 +24,15 @@ namespace Rockstar.Admin.WPF
                     MainFrame.Navigate(page);
                 };
 
-                // Переход на страницу авторизации
+                // Переход на страницу авторизации - передаем оба параметра!
                 System.Diagnostics.Debug.WriteLine("Creating LoginPage...");
-                var loginPage = new LoginPage(navigate);
+
+                // Получаем сервисы из App.Services
+                var services = App.Services;
+
+                // Создаем LoginPage с двумя параметрами
+                var loginPage = new LoginPage(services, navigate);
+
                 System.Diagnostics.Debug.WriteLine("Navigating to LoginPage...");
                 MainFrame.Navigate(loginPage);
                 System.Diagnostics.Debug.WriteLine("=== MainWindow Constructor Complete ===");

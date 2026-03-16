@@ -1,5 +1,6 @@
 ﻿using Rockstar.Admin.WPF.Services.Interfaces;
 using Rockstar.Admin.WPF.ViewModels.Base;
+using Rockstar.Admin.WPF.ViewModels.Commands;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,13 +12,14 @@ namespace Rockstar.Admin.WPF.ViewModels.Auth
     public class LoginViewModel : ViewModelBase
     {
         private readonly IAuthService _authService;
-        private readonly Action<Page> _navigate;  // 🔑 Action<Page>
+        private readonly Action<Page> _navigate;
 
         private string _email = string.Empty;
-        private string _password = string.Empty;
+        private string _password = string.Empty; // Добавляем для совместимости
         private string _errorMessage = string.Empty;
         private bool _isLoggingIn;
 
+        // Конструктор для LoginPage (с навигацией)
         public LoginViewModel(IAuthService authService, Action<Page> navigate)
         {
             _authService = authService;
@@ -69,13 +71,18 @@ namespace Rockstar.Admin.WPF.ViewModels.Auth
             }
         }
 
-        public Visibility IsErrorVisible => string.IsNullOrEmpty(ErrorMessage) ? Visibility.Collapsed : Visibility.Visible;
-        public Visibility IsLoadingVisible => IsLoggingIn ? Visibility.Visible : Visibility.Collapsed;
-        public bool CanLogin => !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Password) && !IsLoggingIn;
+        public Visibility IsErrorVisible =>
+            string.IsNullOrEmpty(ErrorMessage) ? Visibility.Collapsed : Visibility.Visible;
 
-        // 🔑 RelayCommand без параметра
-        public ICommand LoginCommand => new RelayCommand(async () => await ExecuteLogin(), () => CanLogin);
-        public ICommand ForgotPasswordCommand => new RelayCommand(() => ExecuteForgotPassword());
+        public Visibility IsLoadingVisible =>
+            IsLoggingIn ? Visibility.Visible : Visibility.Collapsed;
+
+        public bool CanLogin =>
+            !string.IsNullOrWhiteSpace(Email) &&
+            !string.IsNullOrWhiteSpace(Password) &&
+            !IsLoggingIn;
+
+        public ICommand LoginCommand => new AsyncRelayCommand(ExecuteLogin, () => CanLogin);
 
         private void ClearError()
         {
@@ -85,17 +92,18 @@ namespace Rockstar.Admin.WPF.ViewModels.Auth
 
         private async Task ExecuteLogin()
         {
+            if (!CanLogin)
+                return;
+
             if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
             {
                 ErrorMessage = "Заполните все поля";
-                OnPropertyChanged(nameof(IsErrorVisible));
                 return;
             }
 
             if (!Email.Contains("@") || !Email.Contains("."))
             {
                 ErrorMessage = "Некорректный формат email";
-                OnPropertyChanged(nameof(IsErrorVisible));
                 return;
             }
 
@@ -106,34 +114,33 @@ namespace Rockstar.Admin.WPF.ViewModels.Auth
             {
                 var result = await _authService.LoginAsync(Email, Password);
 
-                if (result.Success && result.User != null)
+                if (result.Success)
                 {
+                    // Переходим на MainPage
                     _navigate(new Views.Main.MainPage(_navigate));
                 }
                 else
                 {
                     ErrorMessage = result.Message ?? "Ошибка авторизации";
-                    OnPropertyChanged(nameof(IsErrorVisible));
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = "Ошибка подключения к серверу";
-                System.Diagnostics.Debug.WriteLine($"Login error: {ex.Message}");
+                if (App.UseApi)
+                {
+                    ErrorMessage = "Ошибка подключения к API. Проверьте, запущен ли сервер.";
+                    System.Diagnostics.Debug.WriteLine($"API Error: {ex.Message}");
+                }
+                else
+                {
+                    ErrorMessage = "Ошибка подключения к базе данных";
+                    System.Diagnostics.Debug.WriteLine($"DB Error: {ex.Message}");
+                }
             }
             finally
             {
                 IsLoggingIn = false;
             }
-        }
-
-        private void ExecuteForgotPassword()
-        {
-            MessageBox.Show(
-                "Функция восстановления пароля будет доступна в следующей версии.",
-                "Информация",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
         }
     }
 }

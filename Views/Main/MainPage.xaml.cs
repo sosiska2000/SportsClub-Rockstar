@@ -26,10 +26,9 @@ namespace Rockstar.Admin.WPF.Views.Main
             _navigate(new ClientsView(_navigate));
         }
 
-
         private void SubscriptionsButton_Click(object sender, RoutedEventArgs e)
         {
-            _navigate(new Views.Subscriptions.SubscriptionsView(_navigate));
+            _navigate(new SubscriptionsView(_navigate));
         }
 
         private void TrainersButton_Click(object sender, RoutedEventArgs e)
@@ -59,7 +58,7 @@ namespace Rockstar.Admin.WPF.Views.Main
             {
                 var authService = App.Services.GetRequiredService<Services.Interfaces.IAuthService>();
                 await authService.LogoutAsync();
-                _navigate(new LoginPage(_navigate));
+                _navigate(new LoginPage(App.Services, _navigate));
             }
         }
     }

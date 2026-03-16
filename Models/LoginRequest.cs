@@ -11,7 +11,7 @@ namespace App.Rockstar.Admin.Models
 
         [Required(ErrorMessage = "Пароль обязателен")]
         [MinLength(6, ErrorMessage = "Пароль должен содержать минимум 6 символов")]
-        [JsonIgnore] // Не сериализуем пароль в логах
+        [JsonIgnore] 
         public string Password { get; set; } = string.Empty;
     }
 }

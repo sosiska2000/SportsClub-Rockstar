@@ -3,8 +3,8 @@ package com.example.rockstarmobile.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
 import com.example.rockstarmobile.models.User;
+import com.google.gson.Gson;
 
 public class SessionManager {
     private static final String PREF_NAME = "RockstarPref";

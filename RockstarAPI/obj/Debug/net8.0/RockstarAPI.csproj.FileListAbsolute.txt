@@ -1,0 +1,9 @@
+C:\Users\marat\Desktop\SportsClub-Rockstar\RockstarAPI\obj\Debug\net8.0\RockstarAPI.csproj.AssemblyReference.cache
+C:\Users\marat\Desktop\SportsClub-Rockstar\RockstarAPI\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\marat\Desktop\SportsClub-Rockstar\RockstarAPI\obj\Debug\net8.0\RockstarAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\marat\Desktop\SportsClub-Rockstar\RockstarAPI\obj\Debug\net8.0\RockstarAPI.AssemblyInfoInputs.cache
+C:\Users\marat\Desktop\SportsClub-Rockstar\RockstarAPI\obj\Debug\net8.0\RockstarAPI.AssemblyInfo.cs
+C:\Users\marat\Desktop\SportsClub-Rockstar\RockstarAPI\obj\Debug\net8.0\RockstarAPI.csproj.CoreCompileInputs.cache
+C:\Users\marat\Desktop\SportsClub-Rockstar\RockstarAPI\obj\Debug\net8.0\RockstarAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\marat\Desktop\SportsClub-Rockstar\RockstarAPI\obj\Debug\net8.0\RockstarAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\marat\Desktop\SportsClub-Rockstar\RockstarAPI\obj\Debug\net8.0\RockstarAPI.sourcelink.json

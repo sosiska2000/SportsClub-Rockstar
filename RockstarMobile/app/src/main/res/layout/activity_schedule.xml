@@ -49,37 +49,43 @@
             <Button
                 android:id="@+id/btnDay1"
                 style="@style/DateButton"
-                android:text="15 мар"
+                android:layout_height="45dp"
                 android:background="@drawable/btn_primary_small"
-                android:textColor="@android:color/white"/>
+                android:text="15 мар"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btnDay2"
                 style="@style/DateButton"
                 android:text="16 мар"
+                android:layout_height="45dp"
+                android:textColor="@color/white"
                 android:background="@drawable/btn_outline_small"
-                android:textColor="@color/text_secondary"/>
+                />
 
             <Button
                 android:id="@+id/btnDay3"
                 style="@style/DateButton"
                 android:text="17 мар"
                 android:background="@drawable/btn_outline_small"
-                android:textColor="@color/text_secondary"/>
+                android:layout_height="45dp"
+                android:textColor="@color/white"/>
 
             <Button
                 android:id="@+id/btnDay4"
                 style="@style/DateButton"
                 android:text="18 мар"
                 android:background="@drawable/btn_outline_small"
-                android:textColor="@color/text_secondary"/>
+                android:layout_height="45dp"
+                android:textColor="@color/white"/>
 
             <Button
                 android:id="@+id/btnDay5"
                 style="@style/DateButton"
                 android:text="19 мар"
                 android:background="@drawable/btn_outline_small"
-                android:textColor="@color/text_secondary"/>
+                android:layout_height="45dp"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
     </HorizontalScrollView>

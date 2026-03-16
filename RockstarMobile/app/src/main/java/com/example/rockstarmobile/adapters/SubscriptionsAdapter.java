@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rockstarmobile.R;
@@ -17,8 +16,8 @@ import java.util.List;
 
 public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdapter.SubscriptionViewHolder> {
 
-    private final Context context;
-    private final List<Subscription> subscriptions;
+    private Context context;
+    private List<Subscription> subscriptions;
 
     public SubscriptionsAdapter(Context context, List<Subscription> subscriptions) {
         this.context = context;
@@ -34,36 +33,30 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
 
     @Override
     public void onBindViewHolder(@NonNull SubscriptionViewHolder holder, int position) {
-        Subscription subscription = subscriptions.get(position);
+        if (subscriptions != null && position < subscriptions.size()) {
+            Subscription subscription = subscriptions.get(position);
 
-        holder.tvName.setText(subscription.getName());
-        holder.tvPrice.setText(subscription.getPriceDisplay());
-        holder.tvSessions.setText(subscription.getSessionsDisplay());
-
-        if (subscription.getDescription() != null && !subscription.getDescription().isEmpty()) {
-            holder.tvDescription.setText(subscription.getDescription());
-            holder.tvDescription.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvDescription.setVisibility(View.GONE);
+            holder.tvSubscriptionName.setText(subscription.getName() != null ? subscription.getName() : "");
+            holder.tvSubscriptionDescription.setText(subscription.getDescription() != null ? subscription.getDescription() : "");
+            holder.tvSubscriptionPrice.setText(subscription.getPriceDisplay());
+            holder.tvSubscriptionSessions.setText(subscription.getSessionsDisplay());
         }
     }
 
     @Override
     public int getItemCount() {
-        return subscriptions.size();
+        return subscriptions != null ? subscriptions.size() : 0;
     }
 
-    public static class SubscriptionViewHolder extends RecyclerView.ViewHolder {
-        public CardView cardView;
-        public TextView tvName, tvPrice, tvSessions, tvDescription;
+    static class SubscriptionViewHolder extends RecyclerView.ViewHolder {
+        TextView tvSubscriptionName, tvSubscriptionDescription, tvSubscriptionSessions, tvSubscriptionPrice;
 
-        public SubscriptionViewHolder(@NonNull View itemView) {
+        SubscriptionViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardView = itemView.findViewById(R.id.cardView);
-            tvName = itemView.findViewById(R.id.tvName);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvSessions = itemView.findViewById(R.id.tvSessions);
-            tvDescription = itemView.findViewById(R.id.tvDescription);
+            tvSubscriptionName = itemView.findViewById(R.id.tvSubscriptionName);
+            tvSubscriptionDescription = itemView.findViewById(R.id.tvSubscriptionDescription);
+            tvSubscriptionSessions = itemView.findViewById(R.id.tvSubscriptionSessions);
+            tvSubscriptionPrice = itemView.findViewById(R.id.tvSubscriptionPrice);
         }
     }
 }

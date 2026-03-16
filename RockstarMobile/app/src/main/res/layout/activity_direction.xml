@@ -6,23 +6,21 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <!-- Верхняя панель с кнопкой назад -->
+    <!-- Верхняя панель -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@drawable/bg_gradient_small"
         android:padding="12dp">
 
-        <ImageView
-            android:id="@+id/btnBack"
+        <ImageButton
+            android:id="@+id/ivBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_back"
             android:background="@android:color/transparent"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:focusable="true"/>
+            android:layout_centerVertical="true"/>
 
         <TextView
             android:id="@+id/tvDirectionTitle"
@@ -38,19 +36,30 @@
             android:id="@+id/ivDirectionIcon"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:src="@drawable/ic_yoga"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 
+    <!-- Прогресс бар -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:visibility="gone"/>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
             <!-- Описание направления -->
             <TextView
@@ -59,18 +68,18 @@
                 android:layout_height="wrap_content"
                 android:text="Описание направления"
                 android:textSize="14sp"
-                android:textColor="#666666"
+                android:textColor="@color/text_secondary"
                 android:lineSpacingExtra="4dp"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- Раздел "Прайс-лист" -->
+            <!-- Раздел "Услуги" -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Прайс-лист"
+                android:text="Услуги"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#2C2C2E"
+                android:textColor="@color/text_primary"
                 android:layout_marginBottom="12dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -87,7 +96,7 @@
                 android:text="Абонементы"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#2C2C2E"
+                android:textColor="@color/text_primary"
                 android:layout_marginBottom="12dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -97,14 +106,13 @@
                 android:nestedScrollingEnabled="false"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- Слайдер с фото -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Фотогалерея"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#2C2C2E"
+                android:textColor="@color/text_primary"
                 android:layout_marginBottom="12dp"/>
 
             <androidx.viewpager2.widget.ViewPager2

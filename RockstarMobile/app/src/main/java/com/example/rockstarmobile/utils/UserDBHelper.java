@@ -1,16 +1,12 @@
 package com.example.rockstarmobile.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.rockstarmobile.models.User;
-import com.google.gson.Gson;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 public class UserDBHelper {
 

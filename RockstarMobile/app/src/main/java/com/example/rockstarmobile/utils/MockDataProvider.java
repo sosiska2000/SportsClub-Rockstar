@@ -89,7 +89,7 @@ public class MockDataProvider {
     public static List<Integer> getDirectionImages(String directionKey) {
         List<Integer> images = new ArrayList<>();
 
-        // Временные заглушки - замените на реальные изображения
+        // Убедитесь, что возвращаете правильные ресурсы
         switch (directionKey) {
             case "yoga":
                 images.add(R.drawable.yoga_placeholder);
@@ -105,6 +105,9 @@ public class MockDataProvider {
                 images.add(R.drawable.climbing_placeholder);
                 images.add(R.drawable.climbing_placeholder);
                 images.add(R.drawable.climbing_placeholder);
+                break;
+            default:
+                images.add(R.drawable.yoga_placeholder);
                 break;
         }
 

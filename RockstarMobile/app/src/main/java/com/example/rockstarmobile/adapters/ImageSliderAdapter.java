@@ -32,11 +32,8 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
-        if (images != null && position < images.size()) {
+        if (images != null && !images.isEmpty() && position < images.size()) {
             holder.imageView.setImageResource(images.get(position));
-        } else {
-            // Заглушка на случай ошибки
-            holder.imageView.setImageResource(R.drawable.yoga_placeholder);
         }
     }
 

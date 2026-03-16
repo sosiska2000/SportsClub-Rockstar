@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rockstarmobile.R;
@@ -17,8 +16,8 @@ import java.util.List;
 
 public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ServiceViewHolder> {
 
-    private final Context context;
-    private final List<Service> services;
+    private Context context;
+    private List<Service> services;
 
     public ServicesAdapter(Context context, List<Service> services) {
         this.context = context;
@@ -34,44 +33,36 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.Servic
 
     @Override
     public void onBindViewHolder(@NonNull ServiceViewHolder holder, int position) {
-        Service service = services.get(position);
+        if (services != null && position < services.size()) {
+            Service service = services.get(position);
 
-        holder.tvName.setText(service.getName());
-        holder.tvPrice.setText(service.getPriceDisplay());
-        holder.tvSessions.setText(service.getSessionsDisplay());
+            holder.tvServiceName.setText(service.getName() != null ? service.getName() : "");
+            holder.tvServiceDescription.setText(service.getDescription() != null ? service.getDescription() : "");
+            holder.tvServicePrice.setText(service.getPriceDisplay());
 
-        if (service.getDescription() != null && !service.getDescription().isEmpty()) {
-            holder.tvDescription.setText(service.getDescription());
-            holder.tvDescription.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvDescription.setVisibility(View.GONE);
-        }
-
-        if (service.getDurationMinutes() != null) {
-            holder.tvDuration.setText(service.getDurationMinutes() + " мин");
-            holder.tvDuration.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvDuration.setVisibility(View.GONE);
+            if (service.getDurationMinutes() != null) {
+                holder.tvServiceDuration.setText(service.getDurationMinutes() + " мин");
+                holder.tvServiceDuration.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvServiceDuration.setVisibility(View.GONE);
+            }
         }
     }
 
     @Override
     public int getItemCount() {
-        return services.size();
+        return services != null ? services.size() : 0;
     }
 
-    public static class ServiceViewHolder extends RecyclerView.ViewHolder {
-        public CardView cardView;
-        public TextView tvName, tvPrice, tvSessions, tvDescription, tvDuration;
+    static class ServiceViewHolder extends RecyclerView.ViewHolder {
+        TextView tvServiceName, tvServiceDescription, tvServiceDuration, tvServicePrice;
 
-        public ServiceViewHolder(@NonNull View itemView) {
+        ServiceViewHolder(@NonNull View itemView) {
             super(itemView);
-            cardView = itemView.findViewById(R.id.cardView);
-            tvName = itemView.findViewById(R.id.tvName);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
-            tvSessions = itemView.findViewById(R.id.tvSessions);
-            tvDescription = itemView.findViewById(R.id.tvDescription);
-            tvDuration = itemView.findViewById(R.id.tvDuration);
+            tvServiceName = itemView.findViewById(R.id.tvServiceName);
+            tvServiceDescription = itemView.findViewById(R.id.tvServiceDescription);
+            tvServiceDuration = itemView.findViewById(R.id.tvServiceDuration);
+            tvServicePrice = itemView.findViewById(R.id.tvServicePrice);
         }
     }
 }

@@ -51,28 +51,32 @@
                 style="@style/DateButton"
                 android:text="Все"
                 android:background="@drawable/btn_primary_small"
-                android:textColor="@android:color/white"/>
+                android:layout_height="45dp"
+                android:textColor="@color/white"/>
 
             <Button
                 android:id="@+id/btnYoga"
                 style="@style/DateButton"
                 android:text="Йога"
                 android:background="@drawable/btn_outline_small"
-                android:textColor="@color/text_secondary"/>
+                android:layout_height="45dp"
+                android:textColor="@color/white"/>
 
             <Button
                 android:id="@+id/btnFitness"
                 style="@style/DateButton"
                 android:text="Фитнес"
                 android:background="@drawable/btn_outline_small"
-                android:textColor="@color/text_secondary"/>
+                android:layout_height="45dp"
+                android:textColor="@color/white"/>
 
             <Button
                 android:id="@+id/btnClimbing"
                 style="@style/DateButton"
                 android:text="Скалолазание"
                 android:background="@drawable/btn_outline_small"
-                android:textColor="@color/text_secondary"/>
+                android:layout_height="45dp"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
     </HorizontalScrollView>

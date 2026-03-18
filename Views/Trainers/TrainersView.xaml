@@ -76,11 +76,11 @@
                            FontSize="14" Foreground="#8E8E93"/>
             </StackPanel>
 
-            <Button Content="Назад" Style="{StaticResource PrimaryButtonStyle}" Click="LogoutButton_Click" Width="120" Margin="859,10,41,9"/>
+            <Button Content="Назад" Style="{StaticResource PrimaryButtonStyle}" Click="LogoutButton_Click" Width="120" Margin="890,10,10,9"/>
             <Button
                     Content="+ Добавить тренера"
                     Style="{StaticResource PrimaryButtonStyle}"
-                    Command="{Binding AddTrainerCommand}" Margin="662,10,197,9"/>
+                    Command="{Binding AddTrainerCommand}" Margin="709,10,150,9"/>
         </Grid>
 
         <!-- Фильтр -->

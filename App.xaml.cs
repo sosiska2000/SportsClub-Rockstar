@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Rockstar.Admin.WPF.Models;
 using Rockstar.Admin.WPF.Services;
-using Rockstar.Admin.WPF.Services.Database;
 using Rockstar.Admin.WPF.Services.Interfaces;
 using Rockstar.Admin.WPF.ViewModels.Auth;
 using Rockstar.Admin.WPF.ViewModels.Clients;
@@ -13,6 +13,7 @@ using Rockstar.Admin.WPF.ViewModels.Subscriptions;
 using Rockstar.Admin.WPF.ViewModels.Trainers;
 using Rockstar.Admin.WPF.Views.Auth;
 using System;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -22,7 +23,7 @@ namespace Rockstar.Admin.WPF
     {
         public static IServiceProvider Services { get; private set; } = null!;
         public static IConfiguration Configuration { get; private set; } = null!;
-        public static bool UseApi { get; set; } = true;
+        public static bool UseApi { get; set; } = true; // Всегда используем API
 
         // Сервис навигации
         private NavigationService _navigationService = new();
@@ -50,14 +51,18 @@ namespace Rockstar.Admin.WPF
                 var mainWindow = new MainWindow();
                 mainWindow.Show();
 
-                // Навигируем на LoginPage (оборачиваем в лямбду!)
-                var loginPage = new LoginPage(Services, (page) => _navigationService.NavigateTo(page));
+                // Создаем LoginPage с правильным делегатом
+                var loginPage = new LoginPage(Services, page =>
+                {
+                    _navigationService.NavigateTo(page);
+                });
+
                 _navigationService.NavigateTo(loginPage);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Критическая ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка: {ex.Message}\n\nStackTrace: {ex.StackTrace}",
+                    "Критическая ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 Shutdown();
             }
         }
@@ -74,42 +79,35 @@ namespace Rockstar.Admin.WPF
                 builder.SetMinimumLevel(LogLevel.Debug);
             });
 
-            if (UseApi)
+            // Регистрируем HttpClient
+            services.AddHttpClient();
+
+            // Регистрируем ApiService
+            services.AddSingleton<IApiService>(sp =>
             {
-                // API режим
-                services.AddSingleton<IApiService>(sp =>
-                {
-                    var config = sp.GetRequiredService<IConfiguration>();
-                    var baseUrl = config["Api:BaseUrl"] ?? "https://localhost:7001/api/";
-                    return new ApiService(baseUrl);
-                });
+                var config = sp.GetRequiredService<IConfiguration>();
+                var baseUrl = config["ApiSettings:BaseUrl"] ?? "http://localhost:5143/api/";
+                var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
+                var httpClient = httpClientFactory.CreateClient();
+                httpClient.BaseAddress = new Uri(baseUrl);
+                httpClient.Timeout = TimeSpan.FromSeconds(30);
 
-                services.AddSingleton<IAuthService, ApiAuthService>();
-                services.AddSingleton<IClientService, ApiClientService>();
-                services.AddSingleton<ITrainerService, ApiTrainerService>();
-                services.AddSingleton<IScheduleService, ApiScheduleService>();
+                return new ApiService(httpClient);
+            });
 
-                // Временно используем заглушки
-                services.AddSingleton<ISubscriptionService, SubscriptionService>();
-                services.AddSingleton<IDirectionService, DirectionService>();
-                services.AddSingleton<IServiceService, ServiceService>();
+            // 👇 ВАЖНО: Используем ТОЛЬКО ApiAuthService, НЕ MockAuthService!
+            services.AddSingleton<IAuthService, ApiAuthService>();
 
-                services.AddSingleton<MySqlDbContext>(sp => null!);
-            }
-            else
-            {
-                // Прямой доступ к БД
-                services.AddSingleton<MySqlDbContext>();
-                services.AddSingleton<IAuthService, AuthService>();
-                services.AddSingleton<IClientService, ClientService>();
-                services.AddSingleton<ITrainerService, TrainerService>();
-                services.AddSingleton<IScheduleService, ScheduleService>();
-                services.AddSingleton<ISubscriptionService, ApiSubscriptionService>();
-                services.AddSingleton<IDirectionService, ApiDirectionService>();
-                services.AddSingleton<IServiceService, ApiServiceService>();
+            // API сервисы
+            services.AddSingleton<IClientService, ApiClientService>();
+            services.AddSingleton<ITrainerService, ApiTrainerService>();
+            services.AddSingleton<IScheduleService, ApiScheduleService>();
+            services.AddSingleton<ISubscriptionService, ApiSubscriptionService>();
+            services.AddSingleton<IDirectionService, ApiDirectionService>();
+            services.AddSingleton<IServiceService, ApiServiceService>();
 
-                services.AddSingleton<IApiService>(sp => null!);
-            }
+            // Временная заглушка для IServiceTypeService (если не используется - можно удалить)
+            services.AddSingleton<IServiceTypeService, MockServiceTypeService>();
 
             // ViewModels
             services.AddTransient<LoginViewModel>();
@@ -119,8 +117,6 @@ namespace Rockstar.Admin.WPF
             services.AddTransient<ScheduleViewModel>();
             services.AddTransient<SubscriptionsViewModel>();
             services.AddTransient<DirectionsViewModel>();
-
-            services.AddSingleton<DatabaseTestService>();
         }
     }
 
@@ -132,5 +128,16 @@ namespace Rockstar.Admin.WPF
         {
             NavigateRequested?.Invoke(this, page);
         }
+    }
+
+    // Временная заглушка для ServiceTypeService
+    public class MockServiceTypeService : IServiceTypeService
+    {
+        public Task<List<ServiceType>> GetAllAsync() => Task.FromResult(new List<ServiceType>());
+        public Task<List<ServiceType>> GetByDirectionIdAsync(int directionId) => Task.FromResult(new List<ServiceType>());
+        public Task<ServiceType?> GetByIdAsync(int id) => Task.FromResult<ServiceType?>(null);
+        public Task<bool> CreateAsync(ServiceType serviceType) => Task.FromResult(true);
+        public Task<bool> UpdateAsync(ServiceType serviceType) => Task.FromResult(true);
+        public Task<bool> DeleteAsync(int id) => Task.FromResult(true);
     }
 }

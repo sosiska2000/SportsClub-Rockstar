@@ -63,12 +63,12 @@
             </StackPanel>
 
 
-            <Button Grid.Column="2"
+            <Button
                     Content="+ Добавить клиента"
                     Style="{StaticResource PrimaryButtonStyle}"
                     Command="{Binding AddClientCommand}"
-                    Width="150"/>
-            <Button Content="Назад" Style="{StaticResource PrimaryButtonStyle}" Click="LogoutButton_Click" Width="120" Margin="725,10,18,9"/>
+                    Width="150" Margin="725,9,145,10"/>
+            <Button Content="Назад" Style="{StaticResource PrimaryButtonStyle}" Click="LogoutButton_Click" Width="120" Margin="890,9,10,10"/>
         </Grid>
 
         <!-- Список клиентов -->

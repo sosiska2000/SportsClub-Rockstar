@@ -1,5 +1,6 @@
 ﻿using Rockstar.Admin.WPF.Services.Interfaces;
 using Rockstar.Admin.WPF.ViewModels.Base;
+using Rockstar.Admin.WPF.ViewModels.Commands;
 using Rockstar.Admin.WPF.Views.Auth;
 using System;
 using System.Threading.Tasks;

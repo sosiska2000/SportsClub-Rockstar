@@ -1,6 +1,7 @@
 ﻿using Rockstar.Admin.WPF.Models;
 using Rockstar.Admin.WPF.Services.Interfaces;
 using Rockstar.Admin.WPF.ViewModels.Base;
+using Rockstar.Admin.WPF.ViewModels.Commands;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;

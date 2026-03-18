@@ -14,12 +14,23 @@ namespace Rockstar.Admin.WPF.Views.Auth
         {
             InitializeComponent();
 
-            // Создаем ViewModel с правильными параметрами
             _viewModel = new LoginViewModel(
                 services.GetRequiredService<IAuthService>(),
                 navigate);
 
             DataContext = _viewModel;
+
+            // Устанавливаем начальный пароль из ViewModel в PasswordBox
+            PasswordBox.Password = _viewModel.Password;
+        }
+
+        // Обработчик для передачи пароля из PasswordBox в ViewModel
+        private void PasswordBox_PasswordChanged(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (DataContext is LoginViewModel viewModel)
+            {
+                viewModel.Password = ((PasswordBox)sender).Password;
+            }
         }
     }
 }

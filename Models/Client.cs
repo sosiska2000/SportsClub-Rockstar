@@ -14,6 +14,7 @@ namespace Rockstar.Admin.WPF.Models
         public byte[]? Photo { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsActive { get; set; }
+        public string Role { get; set; } = string.Empty;
 
         public string FullName
         {

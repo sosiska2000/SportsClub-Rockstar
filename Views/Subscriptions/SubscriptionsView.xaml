@@ -83,11 +83,11 @@
                                FontSize="14" Foreground="#8E8E93" Margin="0,4,0,0"/>
                 </StackPanel>
 
-                
+
                 <Button 
                         Content="+ Добавить абонемент"
                         Style="{StaticResource PrimaryButtonStyle}"
-                        Command="{Binding AddSubscriptionCommand}" Grid.ColumnSpan="2" Margin="700,10,150,10"/>
+                        Command="{Binding AddSubscriptionCommand}" Margin="710,12,140,11"/>
                 <Button Content="Назад" Style="{StaticResource PrimaryButtonStyle}" Click="LogoutButton_Click" Width="120" Margin="885,10,0,9"/>
             </Grid>
 

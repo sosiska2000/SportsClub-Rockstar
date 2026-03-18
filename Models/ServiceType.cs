@@ -8,6 +8,8 @@
         public string Description { get; set; } = string.Empty;
         public int DefaultDuration { get; set; } = 60;
         public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
         public string DisplayName => $"{Name} ({DefaultDuration} мин)";
     }
 }

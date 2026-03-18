@@ -1,7 +1,5 @@
 ﻿using Rockstar.Admin.WPF.Models;
 using Rockstar.Admin.WPF.Services.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Rockstar.Admin.WPF.Services;
 
@@ -9,44 +7,40 @@ public class ApiDirectionService : IDirectionService
 {
     private readonly IApiService _apiService;
 
-    public ApiDirectionService(IApiService apiService)
+    public ApiDirectionService(IApiService apiService)  // 👈 ТОЛЬКО IApiService
     {
         _apiService = apiService;
     }
 
     public async Task<List<Direction>> GetAllAsync()
     {
-        // TODO: реализовать
-        return await Task.FromResult(new List<Direction>());
+        return await _apiService.GetAsync<List<Direction>>("directions") ?? new List<Direction>();
     }
 
     public async Task<Direction?> GetByIdAsync(int id)
     {
-        // TODO: реализовать
-        return await Task.FromResult<Direction?>(null);
+        return await _apiService.GetAsync<Direction>($"directions/{id}");
     }
 
     public async Task<Direction?> GetByKeyAsync(string key)
     {
-        // TODO: реализовать
-        return await Task.FromResult<Direction?>(null);
+        return await _apiService.GetAsync<Direction>($"directions/key/{key}");
     }
 
     public async Task<bool> CreateAsync(Direction direction)
     {
-        // TODO: реализовать
-        return await Task.FromResult(true);
+        var result = await _apiService.PostAsync<Direction>("directions", direction);
+        return result != null;
     }
 
     public async Task<bool> UpdateAsync(Direction direction)
     {
-        // TODO: реализовать
-        return await Task.FromResult(true);
+        var result = await _apiService.PutAsync<Direction>($"directions/{direction.Id}", direction);
+        return result != null;
     }
 
     public async Task<bool> DeleteAsync(int id)
     {
-        // TODO: реализовать
-        return await Task.FromResult(true);
+        return await _apiService.DeleteAsync($"directions/{id}");
     }
 }
